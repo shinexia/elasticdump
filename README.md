@@ -1,0 +1,2 @@
+# esdump
+elasticsearch dump tool
