@@ -67,6 +67,8 @@ func main() {
 		},
 	}
 	app := &cli.App{
+		Name: "a simple elasticsearch dump & load tool",
+		Usage: "",
 		Commands: []*cli.Command{
 			{
 				Name:   "load",
@@ -265,7 +267,7 @@ func loadMapping(opt *Opt) error {
 
 func dumpData(opt *Opt) error {
 	conf := elasticsearch.Config{
-		Addresses:         []string{opt.url},
+		Addresses:         []string{opt.host},
 		EnableMetrics:     true,
 		EnableDebugLogger: true,
 		Logger: &estransport.TextLogger{
