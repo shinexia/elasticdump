@@ -2,11 +2,22 @@
 
 a simple elasticsearch dump & load tool
 
-## Build
+## Description
+
+The Elasicsearch did not offer a dump tool, and the only tool provided at <https://github.com/taskrabbit/elasticsearch-dump> is too slowly, and depend on a nodejs environment.
+
+## Install
 
 ``` bash
 git clone https://github.com/shinexia/elasticsearch-dump.git
 go build -v
+```
+
+or through prebuild binaries
+
+``` bash
+curl -fsSL https://github.com/shinexia/elasticsearch-dump/releases/download/v0.1.0/elasticsearch-dump-linux-x86_64 -o elasticsearch-dump
+chmod a+x elasticsearch-dump
 ```
 
 ## Usage
