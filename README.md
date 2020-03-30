@@ -1,23 +1,23 @@
-# esdump
+# elasticsearch-dump
 
 a simple elasticsearch dump & load tool
 
-## BUILD
+## Build
 
 ``` bash
-git clone https://github.com/shinexia/esdump.git
+git clone https://github.com/shinexia/elasticsearch-dump.git
 go build -v
 ```
 
 ## Usage
 
 ``` bash
-$./esdump --help
+$./elasticsearch-dump --help
 NAME:
-   esdump - A new cli application
+   elasticsearch-dump - A new cli application
 
 USAGE:
-   esdump [global options] command [command options] [arguments...]
+   elasticsearch-dump [global options] command [command options] [arguments...]
 
 COMMANDS:
    load     load records from file
@@ -32,23 +32,27 @@ GLOBAL OPTIONS:
 ### dump mappings
 
 ``` bash
-./esdump dump --file /tmp/myindex-mapping.json --url http://localhost:9200/myindex --type mapping
+./elasticsearch-dump dump --file /tmp/myindex-mapping.json --url http://localhost:9200/myindex --type mapping
 ```
 
 ### load mappings
 
 ``` bash
-./esdump load --file /tmp/myindex-mapping.json --url http://localhost:9200/myindex --type mapping
+./elasticsearch-dump load --file /tmp/myindex-mapping.json --url http://localhost:9200/myindex --type mapping
 ```
 
 ### dump data
 
 ``` bash
-./esdump dump --file /tmp/myindex-data.json --url http://localhost:9200/myindex --type data
+./elasticsearch-dump dump --file /tmp/myindex-data.json --url http://localhost:9200/myindex --type data
 ```
 
 ### load data
 
 ``` bash
-./esdump load --file /tmp/myindex-data.json --url http://localhost:9200/myindex --type data
+./elasticsearch-dump load --file /tmp/myindex-data.json --url http://localhost:9200/myindex --type data
 ```
+
+## LICENSE
+
+Apache License 2.0
