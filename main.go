@@ -67,7 +67,7 @@ func main() {
 		},
 	}
 	app := &cli.App{
-		Name: "a simple elasticsearch dump & load tool",
+		Name:  "a simple elasticsearch dump & load tool",
 		Usage: "",
 		Commands: []*cli.Command{
 			{
@@ -104,7 +104,12 @@ func parseOpt(c *cli.Context) *Opt {
 	if err != nil {
 		log.Fatalf("parse url err: %v\n", err)
 	}
-	opt.host = up.Scheme + "://" + up.Host
+	if up.User != nil {
+		password, _ := up.User.Password()
+		opt.host = up.Scheme + "://" + url.QueryEscape(up.User.Username()) + ":" + url.QueryEscape(password) + "@" + up.Host
+	} else {
+		opt.host = up.Scheme + "://" + up.Host
+	}
 	opt.index = strings.TrimLeft(up.Path, "/")
 	if strings.Contains(opt.index, "/") {
 		log.Fatalf("invalid index: %v\n", opt.url)
