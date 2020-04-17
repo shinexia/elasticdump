@@ -13,6 +13,8 @@ func loadRecords(filename string) ([]*DataRecord, error) {
 	}
 	defer file.Close()
 	scanner := bufio.NewScanner(file)
+	bufSize := 1024 * 1024 * 1024
+	scanner.Buffer(make([]byte, bufSize), bufSize)
 	scanner.Split(bufio.ScanLines)
 	var records []*DataRecord
 	for scanner.Scan() {
