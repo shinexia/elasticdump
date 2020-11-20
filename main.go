@@ -5,16 +5,17 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/elastic/go-elasticsearch/v7"
-	"github.com/elastic/go-elasticsearch/v7/esapi"
-	"github.com/elastic/go-elasticsearch/v7/estransport"
-	"github.com/urfave/cli/v2"
 	"io/ioutil"
 	"log"
 	"net/url"
 	"os"
 	"strings"
 	"time"
+
+	"github.com/elastic/go-elasticsearch/v7"
+	"github.com/elastic/go-elasticsearch/v7/esapi"
+	"github.com/elastic/go-elasticsearch/v7/estransport"
+	"github.com/urfave/cli/v2"
 )
 
 type Opt struct {
@@ -329,7 +330,7 @@ func dumpData(opt *Opt) error {
 				if succeed > 0 {
 					nbytes := 0
 					for _, record := range sr.Hits.Hits {
-						n, err := writer.Write(record)
+						n, err := writer.Write(record.Source)
 						if err != nil {
 							log.Fatalf("write record failed, err: %v\n", err)
 						}
@@ -394,9 +395,9 @@ func loadData(opt *Opt) error {
 		}
 		sub := records[i:j]
 		for _, r := range sub {
-			meta := []byte(fmt.Sprintf(`{"create": {"_index": "%s", "_type": "_doc", "_id": "%s"}}%s`, opt.index, r.ID, "\n"))
+			meta := []byte(fmt.Sprintf(`{"create": {"_index": "%s", "_type": "_doc", "_id": "%s"}}%s`, opt.index, r.Source.ItemType+":"+r.Source.ItemID, "\n"))
 			buf.Write(meta)
-			buf.Write(r.Source)
+			buf.Write(r.Data)
 			buf.Write([]byte("\n"))
 		}
 		data := buf.Bytes()

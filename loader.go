@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func loadRecords(filename string) ([]*DataRecord, error) {
+func loadRecords(filename string) ([]*SourceWrap, error) {
 	file, err := os.Open(filename)
 	if err != nil {
 		return nil, err
@@ -16,13 +16,17 @@ func loadRecords(filename string) ([]*DataRecord, error) {
 	bufSize := 1024 * 1024 * 1024
 	scanner.Buffer(make([]byte, bufSize), bufSize)
 	scanner.Split(bufio.ScanLines)
-	var records []*DataRecord
+	var records []*SourceWrap
 	for scanner.Scan() {
 		line := scanner.Bytes()
-		var rec = &DataRecord{}
-		err := json.Unmarshal(line, rec)
+		var src = &Source{}
+		err := json.Unmarshal(line, src)
 		if err != nil {
 			return nil, err
+		}
+		var rec = &SourceWrap{
+			Source: src,
+			Data:   json.RawMessage(line),
 		}
 		records = append(records, rec)
 	}

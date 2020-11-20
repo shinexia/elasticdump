@@ -2,7 +2,17 @@ package main
 
 import "encoding/json"
 
-type DataRecord struct {
+type Source struct {
+	ItemType string `json:"item_type"`
+	ItemID   string `json:"item_id"`
+}
+
+type SourceWrap struct {
+	Source *Source
+	Data   json.RawMessage
+}
+
+type Hit struct {
 	Index  string          `json:"_index"`
 	Type   string          `json:"_type"`
 	ID     string          `json:"_id"`
@@ -31,8 +41,8 @@ type ScrollResponse struct {
 	TimeOut  bool            `json:"time_out"`
 	Shards   json.RawMessage `json:"_shards"`
 	Hits     struct {
-		Total    json.RawMessage   `json:"total"`
-		MaxScore float32           `json:"max_score"`
-		Hits     []json.RawMessage `json:"hits"`
+		Total    json.RawMessage `json:"total"`
+		MaxScore float32         `json:"max_score"`
+		Hits     []Hit           `json:"hits"`
 	} `json:"hits"`
 }
