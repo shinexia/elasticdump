@@ -1,4 +1,4 @@
-module github.com/shinexia/elasticsearch-dump
+module github.com/shinexia/elasticdump
 
 go 1.14
 

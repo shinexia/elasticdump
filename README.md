@@ -1,34 +1,34 @@
-# elasticsearch-dump
+# elasticdump
 
-a simple elasticsearch dump & load tool
+a simple elasticsearch dump & load tool. 
 
 ## Description
 
-The Elasicsearch did not offer a dump tool, and the only tool provided at <https://github.com/taskrabbit/elasticsearch-dump> is too slowly, and depend on a nodejs environment.
+The Elasicsearch did not offer a dump tool, and the only tool provided at <https://github.com/elasticsearch-dump/elasticsearch-dump> is too slowly, and depend on a nodejs environment.
 
 ## Install
 
 ``` bash
-git clone https://github.com/shinexia/elasticsearch-dump.git
+git clone https://github.com/shinexia/elasticdump.git
 go build -v
 ```
 
 or through prebuild binaries
 
 ``` bash
-curl -fsSL https://github.com/shinexia/elasticsearch-dump/releases/download/v0.1.1/elasticsearch-dump -o elasticsearch-dump
-chmod a+x elasticsearch-dump
+curl -fsSL https://github.com/shinexia/elasticdump/releases/download/v0.2.0/elasticdump-linux-x86_64 -o elasticdump
+chmod a+x elasticdump
 ```
 
 ## Usage
 
 ``` bash
-$./elasticsearch-dump --help
+$./elasticdump --help
 NAME:
-   elasticsearch-dump - A new cli application
+   elasticdump - A new cli application
 
 USAGE:
-   elasticsearch-dump [global options] command [command options] [arguments...]
+   elasticdump [global options] command [command options] [arguments...]
 
 COMMANDS:
    load     load records from file
@@ -43,25 +43,25 @@ GLOBAL OPTIONS:
 ### dump mappings
 
 ``` bash
-./elasticsearch-dump dump --file /tmp/myindex-mapping.json --url http://localhost:9200/myindex --type mapping
+./elasticdump dump --url http://<user_name>:<url_encoded_password>@localhost:9200/myindex --file /tmp/myindex-mapping.json --type mapping
 ```
 
 ### load mappings
 
 ``` bash
-./elasticsearch-dump load --file /tmp/myindex-mapping.json --url http://localhost:9200/myindex --type mapping
+./elasticdump load --url http://localhost:9200/myindex --file /tmp/myindex-mapping.json --type mapping
 ```
 
 ### dump data
 
 ``` bash
-./elasticsearch-dump dump --file /tmp/myindex-data.json --url http://localhost:9200/myindex --type data
+./elasticdump dump --url http://localhost:9200/myindex --file /tmp/myindex-data.json  --type data
 ```
 
 ### load data
 
 ``` bash
-./elasticsearch-dump load --file /tmp/myindex-data.json --url http://localhost:9200/myindex --type data
+./elasticdump load --url http://localhost:9200/myindex  --file /tmp/myindex-data.json--type data
 ```
 
 ## LICENSE

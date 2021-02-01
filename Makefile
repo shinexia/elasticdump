@@ -1,9 +1,9 @@
 
 .PHONY: clean
 
-elasticsearch-dump: $(wildcard *.go)
+elasticdump: $(wildcard *.go)
 	go build -v -o $@
 
 clean:
-	rm -fr esdump elasticsearch-dump
+	rm -fr elasticdump
 
