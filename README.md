@@ -16,7 +16,7 @@ go build -v
 or through prebuild binaries
 
 ``` bash
-curl -fsSL https://github.com/shinexia/elasticsearch-dump/releases/download/v0.1.0/elasticsearch-dump-linux-x86_64 -o elasticsearch-dump
+curl -fsSL https://github.com/shinexia/elasticsearch-dump/releases/download/v0.1.1/elasticsearch-dump -o elasticsearch-dump
 chmod a+x elasticsearch-dump
 ```
 
