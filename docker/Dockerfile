@@ -19,7 +19,7 @@ WORKDIR /build
 COPY . .
 
 RUN cd cmd/elasticdump && \
-    go build -v -o /build/elasticdump
+    CGO_ENABLED=0 go build -v -o /build/elasticdump
 
 FROM alpine:latest
 

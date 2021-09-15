@@ -10,13 +10,14 @@ The Elasicsearch did not offer a dump tool, and the only tool provided at <https
 
 ``` bash
 git clone https://github.com/shinexia/elasticdump.git
+cd elasticdump
 make
 ```
 
 or through prebuild binaries
 
 ``` bash
-curl -fsSL https://github.com/shinexia/elasticdump/releases/download/v0.3.1/elasticdump-linux-x86_64 -o elasticdump
+curl -fsSL https://github.com/shinexia/elasticdump/releases/download/v0.3.1/elasticdump-linux-amd64 -o elasticdump
 chmod a+x elasticdump
 ```
 
