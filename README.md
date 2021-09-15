@@ -16,7 +16,7 @@ make
 or through prebuild binaries
 
 ``` bash
-curl -fsSL https://github.com/shinexia/elasticdump/releases/download/v0.3.0/elasticdump-linux-x86_64 -o elasticdump
+curl -fsSL https://github.com/shinexia/elasticdump/releases/download/v0.3.1/elasticdump-linux-x86_64 -o elasticdump
 chmod a+x elasticdump
 ```
 
