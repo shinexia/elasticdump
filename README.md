@@ -10,7 +10,7 @@ The Elasicsearch did not offer a dump tool, and the only tool provided at <https
 
 ``` bash
 git clone https://github.com/shinexia/elasticdump.git
-go build -v
+make
 ```
 
 or through prebuild binaries
@@ -66,4 +66,4 @@ Use "elasticdump [command] --help" for more information about a command.
 
 ## LICENSE
 
-Apache License 2.0
+MIT License
