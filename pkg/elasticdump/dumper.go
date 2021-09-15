@@ -133,7 +133,7 @@ func (d *Dumper) DumpData(index string, filename string, batch int, limit int, t
 			numWrited++
 		}
 		cost2 := time.Since(startTime2).Seconds()
-		klog.V(5).Infof("writed: %d, total: %d, cost: %.3fs\n", len(hits), numWrited, cost2)
+		klog.Infof("writed: %d/%d, cost: %.3fs\n", numWrited, len(hits), cost2)
 	}
 	cost := time.Since(startTime).Seconds()
 	klog.Infof("dump data succeed, total: %d, index: %s, file: %s, cost: %.3fs\n", numWrited, index, filename, cost)
@@ -234,7 +234,7 @@ func (d *Dumper) doLoadData(queue *DataQueue, stopped *AtomicBool, index string,
 		totalSecceed += succeedCount
 		totalError += errorCount
 		cost2 := time.Since(startTime2).Seconds()
-		klog.V(5).Infof("indexed succeed: %v/%v, failed: %v/%v, cost: %.3fs\n", totalSecceed, succeedCount, totalError, errorCount, cost2)
+		klog.Infof("indexed succeed: %v/%v, failed: %v/%v, cost: %.3fs\n", totalSecceed, succeedCount, totalError, errorCount, cost2)
 	}
 	cost := time.Since(startTime).Seconds()
 	klog.Infof("load data succeed, indexed: %d, failed: %v, index: %s, file: %s, cost: %.3fs\n", totalSecceed, totalError, index, filename, cost)
