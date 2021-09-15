@@ -45,14 +45,13 @@ func parseHost(inHost string) (host string, err error) {
 	return host, nil
 }
 
-func preprocessBaseConfig(old *BaseConfig) (*BaseConfig, error) {
-	var cfg = *old
-	host, err := parseHost(old.Host)
+func preprocessBaseConfig(cfg *BaseConfig) error {
+	host, err := parseHost(cfg.Host)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	cfg.Host = host
-	return &cfg, nil
+	return nil
 }
 
 func newDumper(cfg *BaseConfig) (*elasticdump.Dumper, error) {

@@ -1,3 +1,5 @@
 .idea
 .vscode
 /elasticdump
+/elasticdump-linux-x86_64
+/elasticdumptest-*

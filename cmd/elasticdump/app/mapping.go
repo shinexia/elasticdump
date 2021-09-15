@@ -10,78 +10,84 @@ import (
 )
 
 func newCmdDumpMapping(out io.Writer) *cobra.Command {
-	baseCfg := newBaseConfig()
+	type DumpMappingConfig struct {
+		BaseConfig `json:",inline"`
+	}
+	cfg := &DumpMappingConfig{
+		BaseConfig: *newBaseConfig(),
+	}
 	cmd := &cobra.Command{
 		Use:   "mapping",
 		Short: "dump mapping from elasticsearch",
 		PersistentPreRunE: func(cmd *cobra.Command, args []string) (err error) {
-			log.Printf("origin: %v\n", elasticdump.ToJSON(baseCfg))
-			baseCfg, err = preprocessBaseConfig(baseCfg)
+			log.Printf("origin: %v\n", elasticdump.ToJSON(cfg))
+			err = preprocessBaseConfig(&cfg.BaseConfig)
 			if err != nil {
 				return err
 			}
-			if baseCfg.File == "" {
-				baseCfg.File = baseCfg.Index + "-mapping.json"
+			if cfg.File == "" {
+				cfg.File = cfg.Index + "-mapping.json"
 			}
-			log.Printf("cfg: %v\n", elasticdump.ToJSON(baseCfg))
+			log.Printf("cfg: %v\n", elasticdump.ToJSON(cfg))
 			return nil
 		},
 		RunE: func(cmd *cobra.Command, args []string) error {
-			dumper, err := newDumper(baseCfg)
+			dumper, err := newDumper(&cfg.BaseConfig)
 			if err != nil {
 				return err
 			}
-			return dumper.DumpMapping(baseCfg.Index, baseCfg.File)
+			return dumper.DumpMapping(cfg.Index, cfg.File)
 		},
 		Args: cobra.NoArgs,
 	}
-	addBaseConfigFlags(cmd.Flags(), baseCfg)
+	addBaseConfigFlags(cmd.Flags(), &cfg.BaseConfig)
 	return cmd
 }
 
 func newCmdLoadMapping(out io.Writer) *cobra.Command {
-	baseCfg := newBaseConfig()
 	type LoadMappingConfig struct {
-		delete bool
+		BaseConfig `json:",inline"`
+		Delete     bool `json:"delete"`
 	}
 	cfg := &LoadMappingConfig{
-		delete: false,
+		BaseConfig: *newBaseConfig(),
+		Delete:     false,
 	}
 	cmd := &cobra.Command{
 		Use:   "mapping",
 		Short: "load mapping to elasticsearch",
 		PersistentPreRunE: func(cmd *cobra.Command, args []string) (err error) {
-			log.Printf("origin: %v\n", elasticdump.ToJSON(baseCfg))
-			baseCfg, err = preprocessBaseConfig(baseCfg)
+			log.Printf("origin: %v\n", elasticdump.ToJSON(cfg))
+			err = preprocessBaseConfig(&cfg.BaseConfig)
 			if err != nil {
 				return err
 			}
-			if baseCfg.File == "" {
-				baseCfg.File = baseCfg.Index + "-mapping.json"
+			if cfg.File == "" {
+				cfg.File = cfg.Index + "-mapping.json"
 			}
-			log.Printf("cfg: %v\n", elasticdump.ToJSON(baseCfg))
+			log.Printf("cfg: %v\n", elasticdump.ToJSON(cfg))
 			return nil
 		},
 		RunE: func(cmd *cobra.Command, args []string) error {
-			dumper, err := newDumper(baseCfg)
+			dumper, err := newDumper(&cfg.BaseConfig)
 			if err != nil {
 				return err
 			}
-			if cfg.delete {
-				err = dumper.DeleteIndex(baseCfg.Index)
+			if cfg.Delete {
+				err = dumper.DeleteIndex(cfg.Index)
 				if err != nil {
 					if !strings.Contains(err.Error(), "index_not_found_exception") {
 						return err
 					}
-					log.Printf("index: %s not found\n", baseCfg.Index)
+					log.Printf("index: %s not found\n", cfg.Index)
 				}
 			}
-			return dumper.LoadMapping(baseCfg.Index, baseCfg.File)
+			return dumper.LoadMapping(cfg.Index, cfg.File)
 		},
 		Args: cobra.NoArgs,
 	}
-	addBaseConfigFlags(cmd.Flags(), baseCfg)
+	addBaseConfigFlags(cmd.Flags(), &cfg.BaseConfig)
 	flagSet := cmd.Flags()
-	flagSet.BoolVar(&cfg.delete, "delete", cfg.delete, "whether delete the index before load")
+	flagSet.BoolVar(&cfg.Delete, "delete", cfg.Delete, "whether delete the index before load")
 	return cmd
 }
