@@ -1,5 +1,3 @@
 .idea
-esdump
-elasticsearch-dump
-elasticdump
 .vscode
+/elasticdump

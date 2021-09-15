@@ -16,52 +16,52 @@ go build -v
 or through prebuild binaries
 
 ``` bash
-curl -fsSL https://github.com/shinexia/elasticdump/releases/download/v0.2.0/elasticdump-linux-x86_64 -o elasticdump
+curl -fsSL https://github.com/shinexia/elasticdump/releases/download/v0.3.0/elasticdump-linux-x86_64 -o elasticdump
 chmod a+x elasticdump
 ```
 
 ## Usage
 
 ``` bash
-$./elasticdump --help
-NAME:
-   elasticdump - A new cli application
+$ ./elasticdump 
 
-USAGE:
-   elasticdump [global options] command [command options] [arguments...]
 
-COMMANDS:
-   load     load records from file
-   dump     dump records to file
-   help, h  Shows a list of commands or help for one command
+    ┌──────────────────────────────────────────────────────────┐
+    │ ElasticDump                                              │
+    │ a simple dump/load data/mapping from elasticsearch       │
+    │                                                          │
+    │ Please give us feedback at:                              │
+    │ https://github.com/shinexia/elasticdump/issues           │
+    └──────────────────────────────────────────────────────────┘
 
-GLOBAL OPTIONS:
-   --help, -h  show help (default: false)
+Example usage:
 
-```
+        elasticdump --host http://localhost:9200 --index elasticdumptest gen  testdata 
 
-### dump mappings
+        elasticdump --host http://localhost:9200 --index elasticdumptest dump mapping
 
-``` bash
-./elasticdump dump --url http://<user_name>:<url_encoded_password>@localhost:9200/myindex --file /tmp/myindex-mapping.json --type mapping
-```
+        elasticdump --host http://localhost:9200 --index elasticdumptest dump data
 
-### load mappings
+        elasticdump --host http://localhost:9200 --index elasticdumptest load mapping --delete
 
-``` bash
-./elasticdump load --url http://localhost:9200/myindex --file /tmp/myindex-mapping.json --type mapping
-```
+        elasticdump --host http://localhost:9200 --index elasticdumptest load data
 
-### dump data
+Usage:
+  elasticdump [command]
 
-``` bash
-./elasticdump dump --url http://localhost:9200/myindex --file /tmp/myindex-data.json  --type data
-```
+Available Commands:
+  completion  generate the autocompletion script for the specified shell
+  delete      delete index from elasticsearch
+  dump        dump mapping/data from elasticsearch
+  gen         gen testdata to elasticsearch
+  help        Help about any command
+  load        load mapping/data from elasticsearch
 
-### load data
+Flags:
+  -h, --help   help for elasticdump
 
-``` bash
-./elasticdump load --url http://localhost:9200/myindex  --file /tmp/myindex-data.json--type data
+Use "elasticdump [command] --help" for more information about a command.
+
 ```
 
 ## LICENSE
