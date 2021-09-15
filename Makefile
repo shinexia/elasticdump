@@ -19,7 +19,7 @@ docker-build:
 		--user $(shell id -u):$(shell id -g) \
 		--env XDG_CACHE_HOME=/tmp/.cache \
 		--env GOOS=$(OS_VERSION) \
-		--env GOARCH=amd64 \
+		--env GOARCH=$(ARCH_VERSION) \
 		--env CGO_ENABLED=0 \
 		golang:$(GOLANG_VERSION)-alpine \
 		go build -v -o ../../elasticdump-$(OS_VERSION)-$(ARCH_VERSION)

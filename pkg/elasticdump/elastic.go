@@ -7,6 +7,7 @@ import (
 	"github.com/elastic/go-elasticsearch/v7"
 	"github.com/elastic/go-elasticsearch/v7/estransport"
 	"github.com/pkg/errors"
+	"k8s.io/klog"
 )
 
 // NewElasticSearchClient create elasticsearch.Client
@@ -14,12 +15,15 @@ func NewElasticSearchClient(host string) (*elasticsearch.Client, error) {
 	conf := elasticsearch.Config{
 		Addresses:         []string{host},
 		EnableMetrics:     true,
-		EnableDebugLogger: true,
-		Logger: &estransport.TextLogger{
+		EnableDebugLogger: bool(klog.V(4)),
+		Logger:            nil,
+	}
+	if klog.V(4) {
+		conf.Logger = &estransport.TextLogger{
 			Output:             os.Stdout,
-			EnableRequestBody:  false,
-			EnableResponseBody: false,
-		},
+			EnableRequestBody:  bool(klog.V(5)),
+			EnableResponseBody: bool(klog.V(6)),
+		}
 	}
 	client, err := elasticsearch.NewClient(conf)
 	if err != nil {

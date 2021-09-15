@@ -2,12 +2,12 @@ package app
 
 import (
 	"io"
-	"log"
 	"strings"
 	"time"
 
 	"github.com/shinexia/elasticdump/pkg/elasticdump"
 	"github.com/spf13/cobra"
+	"k8s.io/klog"
 )
 
 func newCmdDumpData(out io.Writer) *cobra.Command {
@@ -27,7 +27,7 @@ func newCmdDumpData(out io.Writer) *cobra.Command {
 		Use:   "data",
 		Short: "dump data from elasticsearch",
 		PersistentPreRunE: func(cmd *cobra.Command, args []string) (err error) {
-			log.Printf("origin: %v\n", elasticdump.ToJSON(cfg))
+			klog.V(5).Infof("cmd: %v\n", elasticdump.ToJSON(cfg))
 			err = preprocessBaseConfig(&cfg.BaseConfig)
 			if err != nil {
 				return err
@@ -35,7 +35,7 @@ func newCmdDumpData(out io.Writer) *cobra.Command {
 			if cfg.File == "" {
 				cfg.File = cfg.Index + "-data.json"
 			}
-			log.Printf("cfg: %v\n", elasticdump.ToJSON(cfg))
+			klog.V(5).Infof("cfg: %v\n", elasticdump.ToJSON(cfg))
 			return nil
 		},
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -75,7 +75,7 @@ func newCmdLoadData(out io.Writer) *cobra.Command {
 		Use:   "data",
 		Short: "load data to elasticsearch",
 		PersistentPreRunE: func(cmd *cobra.Command, args []string) (err error) {
-			log.Printf("origin: %v\n", elasticdump.ToJSON(cfg))
+			klog.V(5).Infof("cmd: %v\n", elasticdump.ToJSON(cfg))
 			err = preprocessBaseConfig(&cfg.BaseConfig)
 			if err != nil {
 				return err
@@ -83,7 +83,7 @@ func newCmdLoadData(out io.Writer) *cobra.Command {
 			if cfg.File == "" {
 				cfg.File = cfg.Index + "-data.json"
 			}
-			log.Printf("cfg: %v\n", elasticdump.ToJSON(cfg))
+			klog.V(5).Infof("cfg: %v\n", elasticdump.ToJSON(cfg))
 			return nil
 		},
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -97,7 +97,7 @@ func newCmdLoadData(out io.Writer) *cobra.Command {
 					if !strings.Contains(err.Error(), "index_not_found_exception") {
 						return err
 					}
-					log.Printf("index: %s not found\n", cfg.Index)
+					klog.Infof("index: %s not found\n", cfg.Index)
 				}
 			}
 			return dumper.LoadData(cfg.Index, cfg.File, cfg.Batch, cfg.Limit, cfg.BufSize)

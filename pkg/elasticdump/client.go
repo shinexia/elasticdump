@@ -37,7 +37,7 @@ func (ec *ESClient) makeResponse(res *esapi.Response, err error) (string, error)
 	}
 	res.Body.Close()
 	if res.IsError() {
-		return "", errors.Errorf("dump err, status: %d, body: %s", res.StatusCode, string(resBody))
+		return "", errors.Errorf("status: %d, body: %s", res.StatusCode, string(resBody))
 	}
 	return string(resBody), nil
 }

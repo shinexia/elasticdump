@@ -1,11 +1,14 @@
 package app
 
 import (
+	gflag "flag"
 	"net/url"
+	"os"
 
 	"github.com/pkg/errors"
 	"github.com/shinexia/elasticdump/pkg/elasticdump"
 	flag "github.com/spf13/pflag"
+	"k8s.io/klog"
 )
 
 type BaseConfig struct {
@@ -18,6 +21,11 @@ func addBaseConfigFlags(flagSet *flag.FlagSet, cfg *BaseConfig) {
 	flagSet.StringVar(&cfg.Host, "host", cfg.Host, "elasticsearch host: http://<user>:<password>@<host>:<port>")
 	flagSet.StringVar(&cfg.Index, "index", cfg.Index, "elasticsearch index name")
 	flagSet.StringVarP(&cfg.File, "file", "f", cfg.File, "filename")
+
+	klogSet := gflag.NewFlagSet(os.Args[0], gflag.ContinueOnError)
+	klog.InitFlags(klogSet)
+
+	flagSet.AddGoFlagSet(klogSet)
 }
 
 func newBaseConfig() *BaseConfig {

@@ -3,11 +3,11 @@ package elasticdump
 import (
 	"encoding/json"
 	"io/ioutil"
-	"log"
 	"os"
 	"time"
 
 	"github.com/pkg/errors"
+	"k8s.io/klog"
 )
 
 type Dumper struct {
@@ -26,8 +26,7 @@ func (d *Dumper) DumpMapping(index string, dest string) error {
 	if err != nil {
 		return err
 	}
-	log.Printf("%s info:\n%s\n", index, res)
-	log.Printf("writing mapping to: %s\n", dest)
+	klog.V(5).Infof("writing mapping to: %s\n", dest)
 	writer, err := os.Create(dest)
 	if err != nil {
 		return errors.Wrapf(err, "create file: %s failed", dest)
@@ -38,24 +37,24 @@ func (d *Dumper) DumpMapping(index string, dest string) error {
 		return errors.Wrapf(err, "dest: %s", dest)
 	}
 	cost := time.Since(startTime).Seconds()
-	log.Printf("dump mapping succeed, cost: %.3fs, index: %s\n", cost, index)
+	klog.Infof("dump mapping succeed, cost: %.3fs, index: %s\n", cost, index)
 	return nil
 }
 
 func (d *Dumper) DeleteIndex(index string) error {
-	log.Printf("deleting index: %s\n", index)
+	klog.V(5).Infof("deleting index: %s\n", index)
 	startTime := time.Now()
 	res, err := d.client.DeleteIndex(index)
 	if err != nil {
 		return err
 	}
 	cost := time.Since(startTime).Seconds()
-	log.Printf("deleting index succeed, cost: %.3fs, index: %s, message: %s\n", cost, index, res)
+	klog.Infof("deleting index succeed, cost: %.3fs, index: %s, message: %s\n", cost, index, res)
 	return nil
 }
 
 func (d *Dumper) LoadMapping(index string, filename string) error {
-	log.Printf("reading file: %s\n", filename)
+	klog.V(5).Infof("reading file: %s\n", filename)
 	startTime := time.Now()
 	mappingData, err := ioutil.ReadFile(filename)
 	if err != nil {
@@ -65,18 +64,17 @@ func (d *Dumper) LoadMapping(index string, filename string) error {
 	if err != nil {
 		return err
 	}
-	log.Printf("info:\n%s\n", reqData)
 	res, err := d.client.LoadMapping(index, reqData)
 	if err != nil {
 		return err
 	}
 	cost := time.Since(startTime).Seconds()
-	log.Printf("load mapping succeed, cost: %.3fs, index: %s, file: %s, message: %s\n", cost, index, filename, res)
+	klog.Infof("load mapping succeed, cost: %.3fs, index: %s, file: %s, message: %s\n", cost, index, filename, res)
 	return nil
 }
 
 func (d *Dumper) DumpData(index string, filename string, batch int, limit int, timeout time.Duration) error {
-	log.Printf("dump data from index: %s, to: %s, batch: %v, limit: %v\n", index, filename, batch, limit)
+	klog.V(5).Infof("dump data from index: %s, to: %s, batch: %v, limit: %v\n", index, filename, batch, limit)
 	startTime := time.Now()
 	queue := NewDataQueue()
 	stopped := &AtomicBool{}
@@ -86,7 +84,7 @@ func (d *Dumper) DumpData(index string, filename string, batch int, limit int, t
 			if stopped.Get() {
 				return true, nil
 			}
-			log.Printf("recieved hits: %d\n", len(hits))
+			klog.V(5).Infof("recieved hits: %d\n", len(hits))
 			queue.Push(Bytes2Queue(hits))
 			return false, nil
 		})
@@ -120,7 +118,7 @@ func (d *Dumper) DumpData(index string, filename string, batch int, limit int, t
 				stopped.Set(true)
 				return errors.WithStack(err)
 			}
-			log.Printf("created file: %s\n", filename)
+			klog.V(5).Infof("created file: %s\n", filename)
 		}
 		startTime2 := time.Now()
 		for _, hit := range hits {
@@ -135,15 +133,15 @@ func (d *Dumper) DumpData(index string, filename string, batch int, limit int, t
 			numWrited++
 		}
 		cost2 := time.Since(startTime2).Seconds()
-		log.Printf("writed: %d, total: %d, cost: %.3fs\n", len(hits), numWrited, cost2)
+		klog.V(5).Infof("writed: %d, total: %d, cost: %.3fs\n", len(hits), numWrited, cost2)
 	}
 	cost := time.Since(startTime).Seconds()
-	log.Printf("dump data succeed, total: %d, index: %s, file: %s, cost: %.3fs\n", numWrited, index, filename, cost)
+	klog.Infof("dump data succeed, total: %d, index: %s, file: %s, cost: %.3fs\n", numWrited, index, filename, cost)
 	return nil
 }
 
 func (d *Dumper) LoadData(index string, filename string, batch int, limit int, bufSize int) error {
-	log.Printf("load data to index: %s, from: %s, batch: %v, limit: %v, bufSize: %v\n", index, filename, batch, limit, bufSize)
+	klog.V(5).Infof("load data to index: %s, from: %s, batch: %v, limit: %v, bufSize: %v\n", index, filename, batch, limit, bufSize)
 	queue := NewDataQueue()
 	stopped := &AtomicBool{}
 	//  async read records from file
@@ -174,7 +172,7 @@ func (d *Dumper) LoadData(index string, filename string, batch int, limit int, b
 }
 
 func (d *Dumper) GenTestData(index string, epoch, batch int) error {
-	log.Printf("gen test data to index: %s, epoch: %d, batch: %d\n", index, epoch, batch)
+	klog.V(5).Infof("gen test data to index: %s, epoch: %d, batch: %d\n", index, epoch, batch)
 	queue := NewDataQueue()
 	stopped := &AtomicBool{}
 	//  async read records from file
@@ -208,7 +206,7 @@ func (d *Dumper) doLoadData(queue *DataQueue, stopped *AtomicBool, index string,
 		if len(hitsQ) == 0 {
 			break
 		}
-		log.Printf("received hits: %v\n", len(hitsQ))
+		klog.V(5).Infof("received hits: %v\n", len(hitsQ))
 		startTime2 := time.Now()
 		hits := Queue2Hits(hitsQ)
 		resData, err := d.client.LoadData(index, hits)
@@ -228,7 +226,7 @@ func (d *Dumper) doLoadData(queue *DataQueue, stopped *AtomicBool, index string,
 			// ... so for any HTTP status above 201 ...
 			if d.Create.Status > 201 {
 				errorCount++
-				log.Printf("Error [%d]: %s\n", d.Create.Status, d.Create.Error)
+				klog.Infof("Error [%d]: %s\n", d.Create.Status, d.Create.Error)
 			} else {
 				succeedCount++
 			}
@@ -236,9 +234,9 @@ func (d *Dumper) doLoadData(queue *DataQueue, stopped *AtomicBool, index string,
 		totalSecceed += succeedCount
 		totalError += errorCount
 		cost2 := time.Since(startTime2).Seconds()
-		log.Printf("indexed succeed: %v+%v, failed: %v+%v, cost: %.3fs\n", succeedCount, totalSecceed, errorCount, totalError, cost2)
+		klog.V(5).Infof("indexed succeed: %v/%v, failed: %v/%v, cost: %.3fs\n", totalSecceed, succeedCount, totalError, errorCount, cost2)
 	}
 	cost := time.Since(startTime).Seconds()
-	log.Printf("load data succeed, indexed: %d, failed: %v, index: %s, file: %s, cost: %.3fs\n", totalSecceed, totalError, index, filename, cost)
+	klog.Infof("load data succeed, indexed: %d, failed: %v, index: %s, file: %s, cost: %.3fs\n", totalSecceed, totalError, index, filename, cost)
 	return nil
 }

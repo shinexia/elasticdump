@@ -2,9 +2,9 @@
 
 a simple elasticsearch dump & load tool. 
 
-## Description
+## Why was elasticdump created?
 
-The Elasicsearch did not offer a dump tool, and the only tool provided at <https://github.com/elasticsearch-dump/elasticsearch-dump> is too slowly, and depend on a nodejs environment.
+The ElasicSearch did not offer a dump tool, and the only tool provided at <https://github.com/elasticsearch-dump/elasticsearch-dump> depends on a nodejs environment, which is not convenient.
 
 ## Install
 
@@ -17,7 +17,7 @@ make
 or through prebuild binaries
 
 ``` bash
-curl -fsSL https://github.com/shinexia/elasticdump/releases/download/v0.3.1/elasticdump-linux-amd64 -o elasticdump
+curl -fsSL https://github.com/shinexia/elasticdump/releases/download/v0.3.2/elasticdump-linux-amd64 -o elasticdump
 chmod a+x elasticdump
 ```
 
@@ -37,7 +37,7 @@ $ ./elasticdump
 
 Example usage:
 
-        elasticdump --host http://localhost:9200 --index elasticdumptest gen  testdata 
+        elasticdump --host http://localhost:9200 --index elasticdumptest gen  testdata -v=10
 
         elasticdump --host http://localhost:9200 --index elasticdumptest dump mapping
 
