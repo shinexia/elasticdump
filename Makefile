@@ -4,13 +4,13 @@ DOCKER         ?= docker
 GOLANG_VERSION ?= 1.17
 IMAGE          ?= elasticdump
 VERSION        ?= latest
-OS_VERSION     ?= linux
-ARCH_VERSION   ?= amd64
+GOOS           ?= linux
+GOARCH         ?= amd64
 
 all: elasticdump
 
 elasticdump:
-	cd cmd/$@; CGO_ENABLED=0 go build -v -o ../../$@
+	cd cmd/$@; go build -v -o ../../$@
 
 docker-build:
 	$(DOCKER) run --rm --name elasticdump-build -it \
@@ -18,11 +18,11 @@ docker-build:
 		--workdir /go/src/github.com/shinexia/elasticdump/cmd/elasticdump \
 		--user $(shell id -u):$(shell id -g) \
 		--env XDG_CACHE_HOME=/tmp/.cache \
-		--env GOOS=$(OS_VERSION) \
-		--env GOARCH=$(ARCH_VERSION) \
+		--env GOOS=$(GOOS) \
+		--env GOARCH=$(GOARCH) \
 		--env CGO_ENABLED=0 \
 		golang:$(GOLANG_VERSION)-alpine \
-		go build -v -o ../../elasticdump-$(OS_VERSION)-$(ARCH_VERSION)
+		go build -v -o ../../elasticdump-$(GOOS)-$(GOARCH)
 
 img: 
 	$(DOCKER) build --pull \
