@@ -18,8 +18,12 @@ FROM golang:$GOLANG_VERSION-alpine as build
 WORKDIR /build
 COPY . .
 
+ARG GOPROXY=
+ENV GOPROXY=$GOPROXY
+ENV CGO_ENABLED=0
+
 RUN cd cmd/elasticdump && \
-    CGO_ENABLED=0 go build -v -o /build/elasticdump
+    go build -v -o /build/elasticdump
 
 FROM alpine:latest
 

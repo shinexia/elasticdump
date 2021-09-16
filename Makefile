@@ -29,6 +29,7 @@ docker-build:
 img: 
 	$(DOCKER) build --pull \
 		--build-arg GOLANG_VERSION=$(GOLANG_VERSION) \
+		--build-arg GOPROXY=$(GOPROXY) \
 		--tag $(IMAGE):$(VERSION) \
 		--file docker/Dockerfile \
 		.
