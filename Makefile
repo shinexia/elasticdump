@@ -6,6 +6,7 @@ IMAGE          ?= elasticdump
 VERSION        ?= latest
 GOOS           ?= linux
 GOARCH         ?= amd64
+GOPROXY        ?= $(shell printenv GOPROXY)
 
 all: elasticdump
 
@@ -20,6 +21,7 @@ docker-build:
 		--env XDG_CACHE_HOME=/tmp/.cache \
 		--env GOOS=$(GOOS) \
 		--env GOARCH=$(GOARCH) \
+		--env GOPROXY=$(GOPROXY) \
 		--env CGO_ENABLED=0 \
 		golang:$(GOLANG_VERSION)-alpine \
 		go build -v -o ../../elasticdump-$(GOOS)-$(GOARCH)
