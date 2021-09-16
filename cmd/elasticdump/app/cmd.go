@@ -24,11 +24,11 @@ func NewElasticDumpCommand(in io.Reader, out, err io.Writer) *cobra.Command {
 
 			Example usage:
 
-				elasticdump --host http://localhost:9200 --index elasticdumptest gen  testdata 
+				elasticdump --host http://localhost:9200 --index elasticdumptest gen  testdata -v=10
 
 				elasticdump --host http://localhost:9200 --index elasticdumptest dump mapping
 
-				elasticdump --host http://localhost:9200 --index elasticdumptest dump data
+				elasticdump --host http://localhost:9200 --index elasticdumptest dump data -v=4
 
 				elasticdump --host http://localhost:9200 --index elasticdumptest load mapping --delete
 

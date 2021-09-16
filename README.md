@@ -17,7 +17,7 @@ make
 or through prebuild binaries
 
 ``` bash
-curl -fsSL https://github.com/shinexia/elasticdump/releases/download/v0.3.5/elasticdump-linux-amd64 -o elasticdump
+curl -fsSL https://github.com/shinexia/elasticdump/releases/download/v0.3.6/elasticdump-linux-amd64 -o elasticdump
 chmod a+x elasticdump
 ```
 
@@ -41,7 +41,7 @@ Example usage:
 
         elasticdump --host http://localhost:9200 --index elasticdumptest dump mapping
 
-        elasticdump --host http://localhost:9200 --index elasticdumptest dump data
+        elasticdump --host http://localhost:9200 --index elasticdumptest dump data -v=4
 
         elasticdump --host http://localhost:9200 --index elasticdumptest load mapping --delete
 

@@ -122,7 +122,8 @@ func (d *Dumper) DumpData(index string, filename string, batch int, limit int, t
 		}
 		startTime2 := time.Now()
 		for _, hit := range hits {
-			_, err = writer.Write(hit.([]byte))
+			data := hit.([]byte)
+			_, err = writer.Write(data)
 			if err == nil {
 				_, err = writer.Write(newLine)
 			}
@@ -199,16 +200,16 @@ func (d *Dumper) doLoadData(queue *DataQueue, stopped *AtomicBool, index string,
 	totalSecceed := 0
 	totalError := 0
 	for {
-		hitsQ, err := queue.Pop(batch)
+		lines, err := queue.Pop(batch)
 		if err != nil {
 			return err
 		}
-		if len(hitsQ) == 0 {
+		if len(lines) == 0 {
 			break
 		}
-		klog.V(5).Infof("received hits: %v\n", len(hitsQ))
+		klog.V(5).Infof("received lines: %v\n", len(lines))
 		startTime2 := time.Now()
-		hits := Queue2Hits(hitsQ)
+		hits := Queue2Hits(lines)
 		resData, err := d.client.LoadData(index, hits)
 		if err != nil {
 			stopped.Set(true)

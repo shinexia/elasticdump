@@ -11,6 +11,7 @@ import (
 	"github.com/elastic/go-elasticsearch/v7"
 	"github.com/elastic/go-elasticsearch/v7/esapi"
 	"github.com/pkg/errors"
+	"k8s.io/klog"
 )
 
 type ESClient struct {
@@ -144,10 +145,11 @@ func (ec *ESClient) DumpData(index string, batch int, limit int, timeout time.Du
 	if err != nil {
 		return err
 	}
-	var res *ScrollResponse
 	count := 0
 	for {
-		err = json.Unmarshal([]byte(resData), &res)
+		klog.V(9).Infof("resData:\n%s\n", resData)
+		var res = &ScrollResponse{}
+		err = json.Unmarshal([]byte(resData), res)
 		if err != nil {
 			return errors.WithStack(err)
 		}

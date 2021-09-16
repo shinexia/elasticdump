@@ -18,8 +18,8 @@ func newCmdGenTestData(out io.Writer) *cobra.Command {
 	}
 	cfg := &GenTestDataConfig{
 		BaseConfig: *newBaseConfig(),
-		Epoch:      10,
-		Batch:      100,
+		Epoch:      2,
+		Batch:      1000,
 		Delete:     false,
 	}
 	cmd := &cobra.Command{
