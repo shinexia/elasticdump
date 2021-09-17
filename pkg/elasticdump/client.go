@@ -30,7 +30,7 @@ func NewESClient(host string, client *elasticsearch.Client) *ESClient {
 
 func (ec *ESClient) makeResponse(res *esapi.Response, err error) (string, error) {
 	if err != nil {
-		return "", err
+		return "", errors.WithStack(err)
 	}
 	resBody, err := ioutil.ReadAll(res.Body)
 	if err != nil {
@@ -58,18 +58,12 @@ func (ec *ESClient) DumpMapping(index string) (string, error) {
 func (ec *ESClient) DeleteIndex(index string) (string, error) {
 	client := ec.client
 	res, err := client.Indices.Delete([]string{index})
-	if err != nil {
-		return "", errors.WithStack(err)
-	}
 	return ec.makeResponse(res, err)
 }
 
 func (ec *ESClient) LoadMapping(index string, data string) (string, error) {
 	client := ec.client
 	res, err := client.Indices.Create(index, client.Indices.Create.WithBody(bytes.NewReader([]byte(data))))
-	if err != nil {
-		return "", errors.WithStack(err)
-	}
 	return ec.makeResponse(res, err)
 }
 
