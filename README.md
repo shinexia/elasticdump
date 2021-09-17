@@ -6,7 +6,10 @@ a simple elasticsearch dump & load tool.
 
 The ElasicSearch did not offer a dump tool, and the only tool provided at <https://github.com/elasticsearch-dump/elasticsearch-dump> depends on a nodejs environment, which is not convenient.
 
-## Install
+## INSTALL
+
+
+1. build from source
 
 ``` bash
 git clone https://github.com/shinexia/elasticdump.git
@@ -14,14 +17,10 @@ cd elasticdump
 make
 ```
 
-or through prebuild binaries
+2. or download a prebuilt binary here: https://github.com/shinexia/elasticdump/releases/
 
-``` bash
-curl -fsSL https://github.com/shinexia/elasticdump/releases/download/v0.3.6/elasticdump-linux-amd64 -o elasticdump
-chmod a+x elasticdump
-```
 
-## Usage
+## EXAMPLE
 
 ``` bash
 $ ./elasticdump 
@@ -56,7 +55,7 @@ Available Commands:
   dump        dump mapping/data from elasticsearch
   gen         gen testdata to elasticsearch
   help        Help about any command
-  load        load mapping/data from elasticsearch
+  load        load mapping/data to elasticsearch
 
 Flags:
   -h, --help   help for elasticdump
