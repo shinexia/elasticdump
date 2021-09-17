@@ -1,3 +1,9 @@
+/*
+Copyright 2021 Shine Xia <shine.xgh@gmail.com>.
+
+Licensed under the MIT License.
+*/
+
 package elasticdump
 
 import (
@@ -10,6 +16,7 @@ import (
 	"k8s.io/klog"
 )
 
+// Dumper a wrapper for ESClient to support commands, eg. dump to a file or load from a file
 type Dumper struct {
 	client *ESClient
 }

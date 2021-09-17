@@ -1,3 +1,9 @@
+/*
+Copyright 2021 Shine Xia <shine.xgh@gmail.com>.
+
+Licensed under the MIT License.
+*/
+
 package elasticdump
 
 import (
@@ -44,6 +50,7 @@ func ReadFileByLines(filename string, bufSize int, callback func(line []byte) (b
 	return nil
 }
 
+// DataQueue a buffered FIFO data queue
 type DataQueue struct {
 	lock    sync.Mutex
 	cond    *sync.Cond

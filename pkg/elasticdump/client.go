@@ -1,3 +1,9 @@
+/*
+Copyright 2021 Shine Xia <shine.xgh@gmail.com>.
+
+Licensed under the MIT License.
+*/
+
 package elasticdump
 
 import (
@@ -14,13 +20,14 @@ import (
 	"k8s.io/klog"
 )
 
+// ESClient wrap the origin `elasticsearch.Client` to provide basic method for dumper
+//   Note That: when dump mapping will create a new `elasticsearch.Client` with host joined index url
 type ESClient struct {
 	host   string // format: http://<username>:<password>@host:port
 	client *elasticsearch.Client
 }
 
 // NewESClient create ESClient
-//  dump mapping use `url` as address, `host` as address
 func NewESClient(host string, client *elasticsearch.Client) *ESClient {
 	return &ESClient{
 		host:   host,

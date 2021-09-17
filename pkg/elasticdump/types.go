@@ -1,3 +1,9 @@
+/*
+Copyright 2021 Shine Xia <shine.xgh@gmail.com>.
+
+Licensed under the MIT License.
+*/
+
 package elasticdump
 
 import (
@@ -40,6 +46,7 @@ type ScrollResponse struct {
 	} `json:"hits"`
 }
 
+// TestData test data structure
 type TestData struct {
 	Content   string `json:"content"`
 	Title     string `json:"title"`
