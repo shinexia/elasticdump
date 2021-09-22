@@ -12,8 +12,7 @@ ARG GOPROXY=
 ENV GOPROXY=$GOPROXY
 ENV CGO_ENABLED=0
 
-RUN cd cmd/elasticdump && \
-    go build -v -o /build/elasticdump
+RUN go build -v -o /build/elasticdump
 
 FROM alpine:latest
 

@@ -17,8 +17,7 @@ cd elasticdump
 make
 ```
 
-2. or download a prebuilt binary here: https://github.com/shinexia/elasticdump/releases/
-
+1. or download a prebuilt binary here: <https://github.com/shinexia/elasticdump/releases/>
 
 ## EXAMPLE
 

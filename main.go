@@ -10,13 +10,13 @@ import (
 	"log"
 	"os"
 
-	"github.com/shinexia/elasticdump/cmd/elasticdump/app"
+	"github.com/shinexia/elasticdump/cmd"
 )
 
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
-	cmd := app.NewElasticDumpCommand(os.Stdin, os.Stdout, os.Stderr)
-	err := cmd.Execute()
+	app := cmd.NewElasticDumpCommand(os.Stdin, os.Stdout, os.Stderr)
+	err := app.Execute()
 	if err != nil {
 		log.Fatalf("%+v\n", err)
 	}

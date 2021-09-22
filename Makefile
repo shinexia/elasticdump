@@ -11,12 +11,12 @@ GOPROXY        ?= $(shell printenv GOPROXY)
 all: elasticdump
 
 elasticdump:
-	cd cmd/$@; go build -v -o ../../$@
+	go build -v -o $@
 
 docker-build:
 	$(DOCKER) run --rm --name elasticdump-build -it \
 		-v $(shell pwd):/go/src/github.com/shinexia/elasticdump \
-		--workdir /go/src/github.com/shinexia/elasticdump/cmd/elasticdump \
+		--workdir /go/src/github.com/shinexia/elasticdump \
 		--user $(shell id -u):$(shell id -g) \
 		--env XDG_CACHE_HOME=/tmp/.cache \
 		--env GOOS=$(GOOS) \
@@ -24,7 +24,7 @@ docker-build:
 		--env GOPROXY=$(GOPROXY) \
 		--env CGO_ENABLED=0 \
 		golang:$(GOLANG_VERSION)-alpine \
-		go build -v -o ../../elasticdump-$(GOOS)-$(GOARCH)
+		go build -v -o elasticdump-$(GOOS)-$(GOARCH)
 
 img: 
 	$(DOCKER) build --pull \
