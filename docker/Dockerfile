@@ -12,7 +12,8 @@ ARG GOPROXY=
 ENV GOPROXY=$GOPROXY
 ENV CGO_ENABLED=0
 
-RUN go build -v -o /build/elasticdump
+ARG LDFLAGS="-s -w"
+RUN go build -v -ldflags="$LDFLAGS" -o /build/elasticdump
 
 FROM alpine:latest
 

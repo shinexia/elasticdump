@@ -7,6 +7,7 @@ VERSION        ?= latest
 GOOS           ?= linux
 GOARCH         ?= amd64
 GOPROXY        ?= $(shell printenv GOPROXY)
+LDFLAGS        ?= "-s -w"
 
 all: elasticdump
 
@@ -24,12 +25,13 @@ docker-build:
 		--env GOPROXY=$(GOPROXY) \
 		--env CGO_ENABLED=0 \
 		golang:$(GOLANG_VERSION)-alpine \
-		go build -v -o elasticdump-$(GOOS)-$(GOARCH)
+		go build -v -ldflags=$(LDFLAGS) -o elasticdump-$(GOOS)-$(GOARCH)
 
 img: 
 	$(DOCKER) build --pull \
 		--build-arg GOLANG_VERSION=$(GOLANG_VERSION) \
 		--build-arg GOPROXY=$(GOPROXY) \
+		--build-arg LDFLAGS=$(LDFLAGS) \
 		--tag $(IMAGE):$(VERSION) \
 		--file docker/Dockerfile \
 		.

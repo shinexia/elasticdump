@@ -1,5 +1,13 @@
 # CHANGELOGs
 
+## v0.3.8
+
+1. add ldflags to trim binary size
+
+## v0.3.7
+
+1. refactor cmd code structrue
+
 ## v0.3.6
 
 2021.09.16
