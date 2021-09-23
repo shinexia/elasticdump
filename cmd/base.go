@@ -50,6 +50,9 @@ func parseHost(inHost string) (host string, err error) {
 	if err != nil {
 		return "", errors.Wrapf(err, "parse host url: %s failed", inHost)
 	}
+	if up.Scheme == "" || up.Host == "" {
+		return "", errors.Errorf("invalid host url: %s", inHost)
+	}
 	if up.User != nil {
 		password, _ := up.User.Password()
 		host = up.Scheme + "://" + url.QueryEscape(up.User.Username()) + ":" + url.QueryEscape(password) + "@" + up.Host
