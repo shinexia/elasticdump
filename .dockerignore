@@ -1,3 +1,7 @@
 Dockerfile
 .git
-elasticdump*
+.idea
+.vscode
+/elasticdump
+/elasticdump-linux-amd64
+/elasticdumptest-*
