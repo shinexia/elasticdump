@@ -36,7 +36,7 @@ $ ./elasticdump
 
 Example usage:
 
-        elasticdump --host http://localhost:9200 --index elasticdumptest gen  testdata -v=10
+        elasticdump --host http://localhost:9200 --index elasticdumptest test gen -v=10
 
         elasticdump --host http://localhost:9200 --index elasticdumptest dump mapping
 
