@@ -30,7 +30,7 @@ func NewElasticDumpCommand(in io.Reader, out, err io.Writer) *cobra.Command {
 
 			Example usage:
 
-				elasticdump --host http://localhost:9200 --index elasticdumptest gen  testdata -v=10
+				elasticdump --host http://localhost:9200 --index elasticdumptest test gen -v=10
 
 				elasticdump --host http://localhost:9200 --index elasticdumptest dump mapping
 
@@ -49,7 +49,7 @@ func NewElasticDumpCommand(in io.Reader, out, err io.Writer) *cobra.Command {
 	cmds.AddCommand(newCmdDump(out))
 	cmds.AddCommand(newCmdLoad(out))
 	cmds.AddCommand(newCmdDelete(out))
-	cmds.AddCommand(newCmdGen(out))
+	cmds.AddCommand(newCmdTest(out))
 
 	return cmds
 }
@@ -86,12 +86,12 @@ func newCmdDelete(out io.Writer) *cobra.Command {
 	return cmd
 }
 
-func newCmdGen(out io.Writer) *cobra.Command {
+func newCmdTest(out io.Writer) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "gen",
-		Short: "gen testdata to elasticsearch",
+		Use:   "test",
+		Short: "test cmds",
 		Args:  cobra.NoArgs,
 	}
-	cmd.AddCommand(newCmdGenTestData(out))
+	cmd.AddCommand(newCmdTestGenData(out))
 	return cmd
 }

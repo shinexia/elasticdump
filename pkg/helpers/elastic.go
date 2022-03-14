@@ -4,7 +4,7 @@ Copyright 2021 Shine Xia <shine.xgh@gmail.com>.
 Licensed under the MIT License.
 */
 
-package elasticdump
+package helpers
 
 import (
 	"os"

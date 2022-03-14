@@ -12,7 +12,6 @@ import (
 	"os"
 
 	"github.com/pkg/errors"
-	"github.com/shinexia/elasticdump/pkg/elasticdump"
 	flag "github.com/spf13/pflag"
 	"k8s.io/klog"
 )
@@ -20,13 +19,11 @@ import (
 type BaseConfig struct {
 	Host  string `json:"host"`
 	Index string `json:"index"`
-	File  string `json:"file"`
 }
 
 func addBaseConfigFlags(flagSet *flag.FlagSet, cfg *BaseConfig) {
 	flagSet.StringVar(&cfg.Host, "host", cfg.Host, "elasticsearch host: http://<user>:<password>@<host>:<port>")
 	flagSet.StringVar(&cfg.Index, "index", cfg.Index, "elasticsearch index name")
-	flagSet.StringVarP(&cfg.File, "file", "f", cfg.File, "filename")
 
 	klogSet := gflag.NewFlagSet(os.Args[0], gflag.ContinueOnError)
 	klog.InitFlags(klogSet)
@@ -38,7 +35,6 @@ func newBaseConfig() *BaseConfig {
 	return &BaseConfig{
 		Host:  "http://localhost:9200",
 		Index: "elasticdumptest",
-		File:  "",
 	}
 }
 
@@ -69,14 +65,4 @@ func preprocessBaseConfig(cfg *BaseConfig) error {
 	}
 	cfg.Host = host
 	return nil
-}
-
-func newDumper(cfg *BaseConfig) (*elasticdump.Dumper, error) {
-	es, err := elasticdump.NewElasticSearchClient(cfg.Host)
-	if err != nil {
-		return nil, err
-	}
-	client := elasticdump.NewESClient(cfg.Host, es)
-	dumper := elasticdump.NewDumper(client)
-	return dumper, nil
 }
