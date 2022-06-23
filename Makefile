@@ -1,7 +1,7 @@
 .PHONY: all elasticdump docker-build img clean
 
 DOCKER         ?= docker
-GOLANG_VERSION ?= 1.18-rc-alpine
+GOLANG_VERSION ?= 1.18-alpine
 IMAGE          ?= elasticdump
 VERSION        ?= latest
 GOOS           ?= linux
