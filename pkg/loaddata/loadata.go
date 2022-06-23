@@ -97,6 +97,10 @@ func LoadData(client *elasticsearch.Client, queue *DataQueue[*Hit], batch int, i
 		var buf bytes.Buffer
 		for _, r := range hits {
 			meta := []byte(fmt.Sprintf(`{"create": {"_index": "%s", "_type": "_doc", "_id": "%s"}}%s`, index, r.ID, "\n"))
+			// have routing field
+			if len(r.Routing) > 0 {
+				meta = []byte(fmt.Sprintf(`{"create": {"_index": "%s", "_type": "_doc", "_id": "%s", "routing": "%s"}}%s`, index, r.ID, r.Routing, "\n"))
+			}
 			buf.Write(meta)
 			buf.Write(r.Source)
 			buf.Write([]byte("\n"))

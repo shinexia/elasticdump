@@ -11,8 +11,9 @@ import (
 )
 
 type Hit struct {
-	ID     string          `json:"_id"`
-	Source json.RawMessage `json:"_source"`
+	ID      string          `json:"_id"`
+	Routing string          `json:"_routing"`
+	Source  json.RawMessage `json:"_source"`
 }
 
 type BulkResponse struct {
