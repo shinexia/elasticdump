@@ -14,9 +14,9 @@ import (
 
 	"github.com/elastic/go-elasticsearch/v7/esapi"
 	"github.com/pkg/errors"
-	"github.com/shinexia/elasticdump/pkg/helpers"
 	"github.com/spf13/cobra"
 	"k8s.io/klog"
+	"xgh.io/elasticdump/pkg/helpers"
 )
 
 func newCmdDumpMapping(out io.Writer) *cobra.Command {

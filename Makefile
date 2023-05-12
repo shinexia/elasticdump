@@ -16,8 +16,8 @@ elasticdump:
 
 docker-build:
 	$(DOCKER) run --rm --name elasticdump-build -it \
-		-v $(shell pwd):/go/src/github.com/shinexia/elasticdump \
-		--workdir /go/src/github.com/shinexia/elasticdump \
+		-v $(shell pwd):/go/src/xgh.io/elasticdump \
+		--workdir /go/src/xgh.io/elasticdump \
 		--user $(shell id -u):$(shell id -g) \
 		--env XDG_CACHE_HOME=/tmp/.cache \
 		--env GOOS=$(GOOS) \

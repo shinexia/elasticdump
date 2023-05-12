@@ -13,10 +13,10 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"github.com/shinexia/elasticdump/pkg/helpers"
-	"github.com/shinexia/elasticdump/pkg/mapping"
 	"github.com/spf13/cobra"
 	"k8s.io/klog"
+	"xgh.io/elasticdump/pkg/helpers"
+	"xgh.io/elasticdump/pkg/mapping"
 )
 
 func newCmdLoadMapping(out io.Writer) *cobra.Command {

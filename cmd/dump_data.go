@@ -13,10 +13,10 @@ import (
 	"time"
 
 	"github.com/elastic/go-elasticsearch/v7/esapi"
-	"github.com/shinexia/elasticdump/pkg/dumpdata"
-	"github.com/shinexia/elasticdump/pkg/helpers"
 	"github.com/spf13/cobra"
 	"k8s.io/klog"
+	"xgh.io/elasticdump/pkg/dumpdata"
+	"xgh.io/elasticdump/pkg/helpers"
 )
 
 func newCmdDumpData(out io.Writer) *cobra.Command {
