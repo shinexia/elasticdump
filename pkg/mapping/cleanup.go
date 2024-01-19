@@ -31,31 +31,43 @@ func CleanUpMapping(data string) (string, error) {
 	if err != nil {
 		return "", errors.WithStack(err)
 	}
-	settingsData := dataMap["settings"]
-	var settingsMap map[string]json.RawMessage
-	err = json.Unmarshal(settingsData, &settingsMap)
-	if err != nil {
-		return "", errors.WithStack(err)
+	
+	//Handle possible lack of settings object in the mapping.
+	if settingsData, ok := dataMap["settings"]; ok  {
+		var settingsMap map[string]json.RawMessage
+		
+		err = json.Unmarshal(settingsData, &settingsMap)
+		if err != nil {
+			return "", errors.WithStack(err)
+		}
+		
+		indexSettingData := settingsMap["index"]
+		var indexSettingMap map[string]json.RawMessage
+		err = json.Unmarshal(indexSettingData, &indexSettingMap)
+
+		if err != nil {
+			return "", errors.WithStack(err)
+		}
+
+		// delete .settings.index unused fields
+		for _, key := range []string{"creation_date", "uuid", "version", "provided_name", "routing", "creation_date_string"} {
+			delete(indexSettingMap, key)
+		}
+
+		newIndexSettingData, err := json.Marshal(indexSettingMap)
+
+		if err != nil {
+			return "", errors.WithStack(err)
+		}
+
+		settingsMap["index"] = json.RawMessage(newIndexSettingData)
+		dataMap["settings"], err = json.Marshal(settingsMap)
+
+		if err != nil {
+			return "", errors.WithStack(err)
+		}
 	}
-	indexSettingData := settingsMap["index"]
-	var indexSettingMap map[string]json.RawMessage
-	err = json.Unmarshal(indexSettingData, &indexSettingMap)
-	if err != nil {
-		return "", errors.WithStack(err)
-	}
-	// delete .settings.index unused fields
-	for _, key := range []string{"creation_date", "uuid", "version", "provided_name", "routing", "creation_date_string"} {
-		delete(indexSettingMap, key)
-	}
-	newIndexSettingData, err := json.Marshal(indexSettingMap)
-	if err != nil {
-		return "", errors.WithStack(err)
-	}
-	settingsMap["index"] = json.RawMessage(newIndexSettingData)
-	dataMap["settings"], err = json.Marshal(settingsMap)
-	if err != nil {
-		return "", errors.WithStack(err)
-	}
+
 	newData, err := json.MarshalIndent(dataMap, "", "  ")
 	if err != nil {
 		return "", errors.WithStack(err)
