@@ -1,7 +1,7 @@
-Dockerfile
 .git
 .idea
 .vscode
+/docker
 /elasticdump
 /elasticdump-linux-amd64
 /elasticdumptest-*

@@ -9,14 +9,15 @@ package cmd
 import (
 	"bytes"
 	"io"
-	"io/ioutil"
+	"os"
 	"time"
+
+	"github.com/shinexia/elasticdump/pkg/helpers"
+	"github.com/shinexia/elasticdump/pkg/mapping"
 
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"k8s.io/klog"
-	"xgh.io/elasticdump/pkg/helpers"
-	"xgh.io/elasticdump/pkg/mapping"
 )
 
 func newCmdLoadMapping(out io.Writer) *cobra.Command {
@@ -58,7 +59,7 @@ func newCmdLoadMapping(out io.Writer) *cobra.Command {
 			inputFile := extra.InputFile
 			klog.V(5).Infof("reading file: %s\n", inputFile)
 			startTime := time.Now()
-			mappingData, err := ioutil.ReadFile(inputFile)
+			mappingData, err := os.ReadFile(inputFile)
 			if err != nil {
 				return errors.Wrapf(err, "read file: %s failed", inputFile)
 			}

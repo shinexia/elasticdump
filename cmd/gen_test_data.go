@@ -9,10 +9,11 @@ package cmd
 import (
 	"io"
 
+	"github.com/shinexia/elasticdump/pkg/helpers"
+	"github.com/shinexia/elasticdump/pkg/loaddata"
+
 	"github.com/spf13/cobra"
 	"k8s.io/klog"
-	"xgh.io/elasticdump/pkg/helpers"
-	"xgh.io/elasticdump/pkg/loaddata"
 )
 
 func newCmdTestGenData(out io.Writer) *cobra.Command {

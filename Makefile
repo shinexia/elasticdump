@@ -1,7 +1,7 @@
 .PHONY: all elasticdump docker-build img clean
 
 DOCKER         ?= docker
-GOLANG_VERSION ?= 1.18-alpine
+GOLANG_VERSION ?= 1.21-alpine
 IMAGE          ?= elasticdump
 VERSION        ?= latest
 GOOS           ?= linux
@@ -16,8 +16,8 @@ elasticdump:
 
 docker-build:
 	$(DOCKER) run --rm --name elasticdump-build -it \
-		-v $(shell pwd):/go/src/xgh.io/elasticdump \
-		--workdir /go/src/xgh.io/elasticdump \
+		-v $(shell pwd):/build \
+		--workdir /build \
 		--user $(shell id -u):$(shell id -g) \
 		--env XDG_CACHE_HOME=/tmp/.cache \
 		--env GOOS=$(GOOS) \

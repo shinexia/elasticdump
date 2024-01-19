@@ -10,7 +10,7 @@ import (
 	"log"
 	"os"
 
-	"xgh.io/elasticdump/cmd"
+	"github.com/shinexia/elasticdump/cmd"
 )
 
 func main() {

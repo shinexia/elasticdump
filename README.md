@@ -8,7 +8,7 @@ The ElasicSearch did not offer a dump tool, and the only tool provided at <https
 
 ## INSTALL
 
-1. `go install xgh.io/elasticdump`
+1. `go install github.com/shinexia/elasticdump`
 
 2. or download a prebuilt binary here: <https://github.com/shinexia/elasticdump/releases/>
 

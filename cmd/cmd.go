@@ -25,7 +25,7 @@ func NewElasticDumpCommand(in io.Reader, out, err io.Writer) *cobra.Command {
 			    │ a simple dump/load data/mapping from elasticsearch       │
 			    │                                                          │
 			    │ Please give us feedback at:                              │
-			    │ https://xgh.io/elasticdump/issues           │
+			    │ https://github.com/shinexia/elasticdump/issues           │
 			    └──────────────────────────────────────────────────────────┘
 
 			Example usage:

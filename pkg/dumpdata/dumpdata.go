@@ -11,7 +11,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 
 	"github.com/elastic/go-elasticsearch/v7"
 	"github.com/elastic/go-elasticsearch/v7/esapi"
@@ -36,12 +36,15 @@ func NewDumpDataOption() *DumpDataOption {
 
 func DumpData(client *elasticsearch.Client, dumpOption *DumpDataOption, writeFunc WriteDataFunc, o ...func(*esapi.SearchRequest)) (int, error) {
 	res, err := client.Search(o...)
+	if err != nil {
+		return 0, errors.Cause(err)
+	}
 	count := 0
 	for {
+		body, err := io.ReadAll(res.Body)
 		if err != nil {
 			return count, errors.Cause(err)
 		}
-		body, err := ioutil.ReadAll(res.Body)
 		if res.IsError() {
 			return count, errors.New(res.String())
 		}
@@ -68,6 +71,9 @@ func DumpData(client *elasticsearch.Client, dumpOption *DumpDataOption, writeFun
 		}
 		scrollReq := []byte(fmt.Sprintf(`{"scroll": "%ds","scroll_id": "%s"}`, dumpOption.TimeoutSec, response.ScrollID))
 		res, err = client.Scroll(client.Scroll.WithContext(context.Background()), client.Scroll.WithBody(bytes.NewReader(scrollReq)))
+		if err != nil {
+			return count, errors.Cause(err)
+		}
 	}
 	return count, nil
 }

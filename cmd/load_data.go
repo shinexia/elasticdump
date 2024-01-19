@@ -10,11 +10,12 @@ import (
 	"io"
 	"os"
 
+	"github.com/shinexia/elasticdump/pkg/helpers"
+	"github.com/shinexia/elasticdump/pkg/loaddata"
+
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"k8s.io/klog"
-	"xgh.io/elasticdump/pkg/helpers"
-	"xgh.io/elasticdump/pkg/loaddata"
 )
 
 func newCmdLoadData(out io.Writer) *cobra.Command {

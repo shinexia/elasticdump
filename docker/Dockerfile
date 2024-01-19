@@ -2,18 +2,17 @@
 #
 # Licensed under the MIT License.
 
-ARG GOLANG_VERSION=1.18-alpine
+ARG GOLANG_VERSION=1.21-alpine
 FROM golang:$GOLANG_VERSION as build
 
-WORKDIR /build
-COPY . .
+COPY ./ /build
 
 ARG GOPROXY=
 ENV GOPROXY=$GOPROXY
 ENV CGO_ENABLED=0
 
 ARG LDFLAGS="-s -w"
-RUN go build -v -ldflags="$LDFLAGS" -buildvcs=false -o /build/elasticdump
+RUN cd /build && go build -v -ldflags="$LDFLAGS" -buildvcs=false -o /build/elasticdump
 
 FROM alpine:latest
 

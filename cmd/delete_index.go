@@ -11,11 +11,12 @@ import (
 	"strings"
 	"time"
 
+	"github.com/shinexia/elasticdump/pkg/helpers"
+
 	"github.com/elastic/go-elasticsearch/v7"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"k8s.io/klog"
-	"xgh.io/elasticdump/pkg/helpers"
 )
 
 func newCmdDeleteIndex(out io.Writer) *cobra.Command {

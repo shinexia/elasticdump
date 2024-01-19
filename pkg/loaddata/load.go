@@ -12,7 +12,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"strconv"
 	"time"
 
@@ -109,7 +108,7 @@ func LoadData(client *elasticsearch.Client, queue *DataQueue[*Hit], batch int, i
 		if err != nil {
 			return errors.WithStack(err)
 		}
-		body, err := ioutil.ReadAll(res.Body)
+		body, err := io.ReadAll(res.Body)
 		if res.IsError() || err != nil {
 			return errors.Errorf("status: %d, body: %s", res.StatusCode, string(body))
 		}

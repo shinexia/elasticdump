@@ -8,15 +8,15 @@ package cmd
 
 import (
 	"io"
-	"io/ioutil"
 	"os"
 	"time"
+
+	"github.com/shinexia/elasticdump/pkg/helpers"
 
 	"github.com/elastic/go-elasticsearch/v7/esapi"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"k8s.io/klog"
-	"xgh.io/elasticdump/pkg/helpers"
 )
 
 func newCmdDumpMapping(out io.Writer) *cobra.Command {
@@ -52,7 +52,7 @@ func newCmdDumpMapping(out io.Writer) *cobra.Command {
 			if err != nil {
 				return errors.Cause(err)
 			}
-			body, err := ioutil.ReadAll(res.Body)
+			body, err := io.ReadAll(res.Body)
 			if res.IsError() || err != nil {
 				return errors.Errorf("status: %d, body: %s", res.StatusCode, string(body))
 			}
