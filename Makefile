@@ -1,7 +1,5 @@
-.PHONY: all elasticdump docker-build img clean
-
 DOCKER         ?= docker
-GOLANG_VERSION ?= 1.21-alpine
+GOLANG_VERSION ?= 1.23-alpine
 IMAGE          ?= elasticdump
 VERSION        ?= latest
 GOOS           ?= linux
@@ -9,11 +7,14 @@ GOARCH         ?= amd64
 GOPROXY        ?= $(shell printenv GOPROXY)
 LDFLAGS        ?= "-s -w"
 
+.PHONY: all
 all: elasticdump
 
+.PHONY: elasticdump
 elasticdump:
 	go build -v -o $@
 
+.PHONY: docker-build
 docker-build:
 	$(DOCKER) run --rm --name elasticdump-build -it \
 		-v $(shell pwd):/build \
@@ -27,6 +28,7 @@ docker-build:
 		golang:$(GOLANG_VERSION) \
 		go build -v -ldflags=$(LDFLAGS) -buildvcs=false -o elasticdump-$(GOOS)-$(GOARCH)
 
+.PHONY: img
 img: 
 	$(DOCKER) build \
 		--build-arg GOLANG_VERSION=$(GOLANG_VERSION) \
@@ -36,5 +38,18 @@ img:
 		--file docker/Dockerfile \
 		.
 
+.PHONY: tidy
+tidy:
+	go mod tidy
+
+.PHONY: lint
+lint:
+	golangci-lint run -v --timeout 10m ./cmd/... ./pkg/...
+
+.PHONY: test
+test:
+	go test -count=1 ./cmd/... ./pkg/...
+
+.PHONY: clean
 clean:
 	rm -fr elasticdump*

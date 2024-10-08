@@ -20,7 +20,7 @@ import (
 	"k8s.io/klog"
 )
 
-func newCmdLoadMapping(out io.Writer) *cobra.Command {
+func newCmdLoadMapping(_ io.Writer) *cobra.Command {
 	type extraOption struct {
 		InputFile string
 		Delete    bool `json:"delete"`
@@ -46,7 +46,7 @@ func newCmdLoadMapping(out io.Writer) *cobra.Command {
 			return nil
 		},
 		RunE: func(cmd *cobra.Command, args []string) error {
-			client, err := helpers.NewElasticSearchClient(cfg.Host)
+			client, err := helpers.NewElasticSearchClient(cfg.Host, cfg.InsecureSkipVerify)
 			if err != nil {
 				return err
 			}

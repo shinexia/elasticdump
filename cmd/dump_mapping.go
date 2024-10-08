@@ -19,7 +19,7 @@ import (
 	"k8s.io/klog"
 )
 
-func newCmdDumpMapping(out io.Writer) *cobra.Command {
+func newCmdDumpMapping(_ io.Writer) *cobra.Command {
 	type extraOption struct {
 		OutputFile string
 	}
@@ -42,7 +42,7 @@ func newCmdDumpMapping(out io.Writer) *cobra.Command {
 		},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			startTime := time.Now()
-			client, err := helpers.NewElasticSearchClient(helpers.PathJoin(cfg.Host, cfg.Index))
+			client, err := helpers.NewElasticSearchClient(helpers.PathJoin(cfg.Host, cfg.Index), cfg.InsecureSkipVerify)
 			if err != nil {
 				return err
 			}

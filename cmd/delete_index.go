@@ -19,7 +19,7 @@ import (
 	"k8s.io/klog"
 )
 
-func newCmdDeleteIndex(out io.Writer) *cobra.Command {
+func newCmdDeleteIndex(_ io.Writer) *cobra.Command {
 	cfg := newBaseConfig()
 	cmd := &cobra.Command{
 		Use:   "index",
@@ -37,7 +37,7 @@ func newCmdDeleteIndex(out io.Writer) *cobra.Command {
 			index := cfg.Index
 			klog.V(5).Infof("deleting index: %s\n", index)
 			startTime := time.Now()
-			client, err := helpers.NewElasticSearchClient(cfg.Host)
+			client, err := helpers.NewElasticSearchClient(cfg.Host, cfg.InsecureSkipVerify)
 			if err != nil {
 				return err
 			}

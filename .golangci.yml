@@ -1,0 +1,11 @@
+# https://golangci-lint.run/usage/configuration/
+run: {}
+output: {}
+linters-settings:
+  govet:
+    enable:
+      - nilness
+linters: {}
+issues:
+  max-issues-per-linter: 50
+  max-same-issues: 50

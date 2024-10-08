@@ -17,13 +17,15 @@ import (
 )
 
 type BaseConfig struct {
-	Host  string `json:"host"`
-	Index string `json:"index"`
+	Host               string `json:"host"`
+	Index              string `json:"index"`
+	InsecureSkipVerify bool   `json:"insecure_skip_verify"`
 }
 
 func addBaseConfigFlags(flagSet *flag.FlagSet, cfg *BaseConfig) {
 	flagSet.StringVar(&cfg.Host, "host", cfg.Host, "elasticsearch host: http://<user>:<password>@<host>:<port>")
 	flagSet.StringVar(&cfg.Index, "index", cfg.Index, "elasticsearch index name")
+	flagSet.BoolVarP(&cfg.InsecureSkipVerify, "insecure-skip-verify", "k", cfg.InsecureSkipVerify, "skip verify tls certificate")
 
 	klogSet := gflag.NewFlagSet(os.Args[0], gflag.ContinueOnError)
 	klog.InitFlags(klogSet)
@@ -33,8 +35,9 @@ func addBaseConfigFlags(flagSet *flag.FlagSet, cfg *BaseConfig) {
 
 func newBaseConfig() *BaseConfig {
 	return &BaseConfig{
-		Host:  "http://localhost:9200",
-		Index: "elasticdumptest",
+		Host:               "http://localhost:9200",
+		Index:              "elasticdumptest",
+		InsecureSkipVerify: false,
 	}
 }
 

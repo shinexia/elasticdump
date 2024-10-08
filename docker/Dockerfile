@@ -2,7 +2,7 @@
 #
 # Licensed under the MIT License.
 
-ARG GOLANG_VERSION=1.21-alpine
+ARG GOLANG_VERSION=1.23-alpine
 FROM golang:$GOLANG_VERSION as build
 
 COPY ./ /build

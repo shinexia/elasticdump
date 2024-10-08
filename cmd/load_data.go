@@ -18,7 +18,7 @@ import (
 	"k8s.io/klog"
 )
 
-func newCmdLoadData(out io.Writer) *cobra.Command {
+func newCmdLoadData(_ io.Writer) *cobra.Command {
 	type extraOption struct {
 		InputFile string
 		Batch     int
@@ -50,7 +50,7 @@ func newCmdLoadData(out io.Writer) *cobra.Command {
 			return nil
 		},
 		RunE: func(cmd *cobra.Command, args []string) error {
-			client, err := helpers.NewElasticSearchClient(cfg.Host)
+			client, err := helpers.NewElasticSearchClient(cfg.Host, cfg.InsecureSkipVerify)
 			if err != nil {
 				return err
 			}

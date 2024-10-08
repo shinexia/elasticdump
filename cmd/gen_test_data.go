@@ -16,7 +16,7 @@ import (
 	"k8s.io/klog"
 )
 
-func newCmdTestGenData(out io.Writer) *cobra.Command {
+func newCmdTestGenData(_ io.Writer) *cobra.Command {
 	type extraOption struct {
 		Epoch  int
 		Batch  int
@@ -41,7 +41,7 @@ func newCmdTestGenData(out io.Writer) *cobra.Command {
 			return nil
 		},
 		RunE: func(cmd *cobra.Command, args []string) error {
-			client, err := helpers.NewElasticSearchClient(cfg.Host)
+			client, err := helpers.NewElasticSearchClient(cfg.Host, cfg.InsecureSkipVerify)
 			if err != nil {
 				return err
 			}

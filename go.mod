@@ -1,6 +1,6 @@
 module github.com/shinexia/elasticdump
 
-go 1.21
+go 1.23
 
 require (
 	github.com/elastic/go-elasticsearch/v7 v7.17.10
