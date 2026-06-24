@@ -15,7 +15,7 @@ import (
 	"github.com/shinexia/elasticdump/pkg/dumpdata"
 	"github.com/shinexia/elasticdump/pkg/helpers"
 
-	"github.com/elastic/go-elasticsearch/v7/esapi"
+	"github.com/elastic/go-elasticsearch/v9/esapi"
 	"github.com/spf13/cobra"
 	"k8s.io/klog"
 )

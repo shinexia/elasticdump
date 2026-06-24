@@ -1,5 +1,5 @@
 DOCKER         ?= docker
-GOLANG_VERSION ?= 1.23-alpine
+GOLANG_VERSION ?= 1.26-alpine
 IMAGE          ?= elasticdump
 VERSION        ?= latest
 GOOS           ?= linux
@@ -8,7 +8,10 @@ GOPROXY        ?= $(shell printenv GOPROXY)
 LDFLAGS        ?= "-s -w"
 
 .PHONY: all
-all: elasticdump
+all: tidy build lint test
+
+.PHONY: build
+build: elasticdump
 
 .PHONY: elasticdump
 elasticdump:

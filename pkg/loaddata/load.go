@@ -15,7 +15,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/elastic/go-elasticsearch/v7"
+	"github.com/elastic/go-elasticsearch/v9"
 	"github.com/pkg/errors"
 	"k8s.io/klog"
 )
