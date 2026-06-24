@@ -62,7 +62,12 @@ func newCmdDumpMapping(_ io.Writer) *cobra.Command {
 			if err != nil {
 				return errors.Wrapf(err, "create file: %s failed", outputFile)
 			}
-			defer writer.Close()
+			defer func() {
+				err := writer.Close()
+				if err != nil {
+					klog.V(4).Infof("close writer failed: %v", err)
+				}
+			}()
 			_, err = writer.Write(body)
 			if err != nil {
 				return errors.Wrapf(err, "dest: %s", outputFile)

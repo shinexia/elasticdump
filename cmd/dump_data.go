@@ -67,7 +67,12 @@ func newCmdDumpData(_ io.Writer) *cobra.Command {
 				ops = append(ops, client.Search.WithQuery(extra.SearchQuery))
 			}
 			writer := dumpdata.NewLazyDataWriter(extra.OutputFile)
-			defer writer.Close()
+			defer func() {
+				err := writer.Close()
+				if err != nil {
+					klog.V(4).Infof("close writer failed: %v", err)
+				}
+			}()
 			ncount, err := dumpdata.DumpData(client, dopt, writer.Write, ops...)
 			if err != nil {
 				return err

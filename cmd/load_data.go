@@ -72,7 +72,12 @@ func newCmdLoadData(_ io.Writer) *cobra.Command {
 					rerr = errors.WithMessagef(err, "file: %s", inputFile)
 					return
 				}
-				defer file.Close()
+				defer func() {
+					err := file.Close()
+					if err != nil {
+						klog.V(4).Infof("close writer failed: %v", err)
+					}
+				}()
 				err = loaddata.LoadHits(queue, file, extra.BufSize)
 				if err != nil {
 					rerr = err
