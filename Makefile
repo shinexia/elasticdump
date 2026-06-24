@@ -38,7 +38,7 @@ img:
 		--build-arg GOPROXY=$(GOPROXY) \
 		--build-arg LDFLAGS=$(LDFLAGS) \
 		--tag $(IMAGE):$(VERSION) \
-		--file docker/Dockerfile \
+		--file ./Dockerfile \
 		.
 
 .PHONY: tidy
